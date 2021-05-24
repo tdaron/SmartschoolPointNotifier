@@ -36,7 +36,13 @@ class Report:
             text = ""
             for page in doc:
                 text += page.getText()
-        text = text.split("Remédiation")[1]
+        text = text.split("Remédiation")
+        if len(text) < 2:
+            print("#############")
+            print("INVALID BULLETIN")
+            print("#############")
+            return False
+        text = text[1]
         text = text.split("\n")
 
         profs = []
@@ -91,8 +97,8 @@ class Report:
                 "points": points[prof]
             })
 
-        pretty(data)
         self.data = data
+        return True
     
 
 

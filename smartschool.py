@@ -2,11 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 import sys
 from urllib.parse import unquote
+from loaders import TextLoader, SpinningLoader
 
 class SmartschoolApi:
     def __init__(self, base_url):
         self.base_url = base_url
     def authenticate(self, username, password):
+        loader = SpinningLoader(text="Authentification", complete_text="Authenticated", speed=0.15, animation="bounce")
+        loader.start()
         self.s = requests.session()
         #print("Getting login page...")
         body = self.s.get(self.base_url+"/login")
@@ -33,7 +36,7 @@ class SmartschoolApi:
         if response.url.endswith("login"):
             print("Bad Credentials")
             sys.exit(0)
-        print("Logged in !")
+        loader.stop()
 
 
         headers = {
@@ -41,10 +44,10 @@ class SmartschoolApi:
             'x-requested-with': 'XMLHttpRequest',
         }
         userInfo = self.s.post(self.base_url+"/Studentcard/Student/getStudents", headers=headers).json()[0]
-        print("Hello "+userInfo["name"])
 
     def getGrade(self, location):
-        print("Getting Grade Infos...")
+        loader = SpinningLoader(text="Searching grade", complete_text="Grade found", speed=0.15, animation="bounce", colour="yellow")
+        loader.start()
         headers = {
             'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0',
             'x-requested-with': 'XMLHttpRequest',
@@ -68,14 +71,12 @@ class SmartschoolApi:
         response = self.s.post(self.base_url+'/Grades/Report/getReport', headers=headers, data=data)
         info = response.json()
         url = "http:"+unquote(info["reportData"]["url"])
-        #print("Url OK")
+        loader.stop()
 
-        print("Downloading grade...")
+        loader = SpinningLoader(text="Downloading", complete_text="Downloaded", speed=0.15, animation="bounce", colour="blue")
+        loader.start()
         data = self.s.get(url)
         pdf = open(location,"wb")
         pdf.write(data.content)
         pdf.close()
-
-
-
-        print("Downloaded as "+location)
+        loader.stop()
