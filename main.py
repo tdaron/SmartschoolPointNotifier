@@ -1,5 +1,5 @@
 from smartschool import SmartschoolApi
-from report import Report, pretty
+from report import Report
 from messages import getMessage
 from ifttt import sendNotification
 import pickle, json, os
@@ -44,14 +44,8 @@ for user in users["users"]:
                     print("Sending notification...")
                     message = getMessage(cours["prof"],points,cours["cours"])
                     print(message)
-                    #print(sendNotification(message, user["token"]))
+                    print(sendNotification(message, user["token"]))
         data[userIndex] = report.data
         save(data)
 
 
-
-
-# Testing messages génération
-
-
-#sendNotification("Salut ma poule","oKtf-NxgRoCctQ64gxV8cVK_DUtLIS3Q7Z3BWYlw0L4")

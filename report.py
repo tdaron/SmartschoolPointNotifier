@@ -1,10 +1,5 @@
 import fitz
 import json
-from pygments import highlight
-from pygments.lexers.data import JsonLexer
-from pygments.formatters.terminal import TerminalFormatter
-
-
 
 def getCourseFromIndex(index, text):
     course = []
@@ -19,13 +14,7 @@ def getCourseFromIndex(index, text):
                 break 
             course.append(l)
         index += 1
-    return course 
-
-def pretty(json_object):
-    json_str = json.dumps(json_object, indent=4)
-    print(highlight(json_str, JsonLexer(), TerminalFormatter()))
-
-
+    return course
 
 class Report:
     def __init__(self, filename):
