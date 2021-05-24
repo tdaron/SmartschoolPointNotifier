@@ -21,23 +21,19 @@ def getMessage(prof, points, matiere):
     return s.replace("$PR",prof).replace("$PO",str(points).replace(".0","")).replace("$M",sanitize(matiere))
 
 
-
-#GG  > 80
-#OK >= 50
-#BAD >= 35
-#NUL < 35
-
 sentences = {
     "full": [
         "La légende disait vrai: 100% en $M",
         "10 en $M! Même $PR ne sait pas comment t'as fait!",
-        "Impossible d'avoir le maximum en $M, juste respect"
+        "Impossible d'avoir le maximum en $M, juste respect",
+        "Wow la vache ! 10 en $M, tout le monde sera jaloux !"
     ],
     "gg": [
         "GG t'as eu $PO en $M",
         "$PR t'a mis $PO en $M, bien joué",
         "T'as géré mec t'as eu $PO en $M",
-        "$PO en $M, de la chance ou du talent?"
+        "$PO en $M, de la chance ou du talent?",
+        "Bien joué pour $M, t'as eu $PO"
     ],
     "ok": [
         "T'as eu $PO en $M",
@@ -51,13 +47,16 @@ sentences = {
         "Arrêteee, $PR a fait le chien ($PO)",
         "Le seummm, $PO en $M",
         "T'inquiète ça arrive, faut pas se pendre ($PO en $M)",
-        "$PR a même pas arrondi ($PO)"
+        "$PR a même pas arrondi ($PO)",
+        "NOOOOOOOON $PO en $M",
+        "Espèce de victime ! $PO en $M lol"
     ],
     "bad": [
         "Ohh merde, $PR vient de mettre $PO",
         "Tu vas devoir repasser l'exam en $M",
         "Nonnn ça craint $PO en $M",
-        "T'as raté l'exam en $M ($PO)"
+        "T'as raté l'exam en $M ($PO)",
+        "Pour coder y a du monde, mais pour réussir $M la y a personne..."
     ],
     "nul": [
         "$PO en $M? T'es sérieux là?",
@@ -65,7 +64,8 @@ sentences = {
         "A mon avis t'as rien branlé avant l'exam de $M ($PO)",
         "$PR fait chier, il t'a mis $PO",
         "Je préfère pas faire de commentaire sur l'exam de $M",
-        "N'importe quoi, $PO en $M"
+        "N'importe quoi, $PO en $M",
+        "Bon.. Sors toi les dois du cul en $M, t'as eu $PO"
     ]
 }
 
