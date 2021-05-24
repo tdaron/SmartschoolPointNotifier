@@ -27,9 +27,9 @@ class Report:
                 text += page.getText()
         text = text.split("Remédiation")
         if len(text) < 2:
-            print("#############")
-            print("INVALID BULLETIN")
-            print("#############")
+            print("#################")
+            print("BULLETIN INVALIDE")
+            print("#################")
             return False
         text = text[1]
         text = text.split("\n")
