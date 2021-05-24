@@ -1,0 +1,9 @@
+{
+  "users": [
+    {
+      "username": "PUT YOUR USERNAME HERE",
+      "password": "PUT YOUR PASSWORD",
+      "token": "PUT YOUR IFTTT WEBHOOK KEY"
+    }
+  ]
+}
