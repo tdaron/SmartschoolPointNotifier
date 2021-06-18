@@ -27,7 +27,7 @@ for user in users["users"]:
     api.authenticate(user["username"],user["password"])
     api.getGrade("report.pdf")
     report = Report("report.pdf")
-    if report.process():
+    if report.process_beta():
         if data == [] or len(data) < userIndex + 1:
             print("Saving for the first time")
             data.append(report.data)
