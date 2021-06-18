@@ -40,9 +40,11 @@ for user in users["users"]:
             for uaa in cours["points"]:
                 uaaIndex = cours["points"].index(uaa)
                 points = uaa["value"]
-                if data[userIndex][courseIndex]["points"][uaaIndex]["value"] != points:
+                current = data[userIndex][courseIndex]["points"][uaaIndex]["value"]
+                if current != points:
+                    isRetry = True if current != None else False
                     print("Sending notification...")
-                    message = getMessage(cours["prof"],points,cours["cours"])
+                    message = getMessage(cours["prof"],points,cours["cours"],uaa["uaa"], isRetry)
                     print(message)
                     print(sendNotification(message, user["token"]))
         data[userIndex] = report.data
