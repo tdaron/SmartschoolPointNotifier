@@ -1,5 +1,15 @@
 import fitz
 import json
+import re
+
+
+COURSE_GROUP = 2
+COURSE_TOTAL_GROUP = 10
+TEACHER_GROUP = 4
+UAA_NAME_GROUP = 6
+UAA_WEIGHT_GROUP = 7
+UAA_RESULTS_GROUP = 8
+
 
 def getCourseFromIndex(index, text):
     course = []
@@ -19,7 +29,7 @@ def getCourseFromIndex(index, text):
 class Report:
     def __init__(self, filename):
         self.filename = filename
-        self.data = {}
+        self.data = []
     def process(self):
         with fitz.open(self.filename) as doc:
             text = ""
@@ -89,6 +99,59 @@ class Report:
         self.data = data
         return True
     
+
+    def process_beta(self):
+
+        with fitz.open(self.filename) as doc:
+            text = ""
+            for page in doc:
+                text += page.getText()
+
+        text = text.split("Remédiation")
+        text = text[1]
+        pattern = re.compile(r"((([A-Z\n\s]+)[a-zA-Z0-9\s\(\)]+)\n\(([\s\D]+)\)\n)?(([A-Z][^A-Z\%]+)\s(\d+)%\n?([\d\,]*)?)?(\n?TOTAL\n([\d\,]+)\n?)?", re.DOTALL | re.MULTILINE)
+        results = list(re.finditer(pattern, text))
+        current_course = ""
+        data = []
+
+        for (match, x) in zip(results, range(0,len(results) - 1)):
+            # Case of course start
+            course = match.group(COURSE_GROUP)
+            teacher = match.group(TEACHER_GROUP)
+            #Case of point line
+            uaa_name = match.group(UAA_NAME_GROUP)
+            uaa_weight = match.group(UAA_WEIGHT_GROUP)
+            uaa_points = match.group(UAA_RESULTS_GROUP)
+            total_value = match.group(COURSE_TOTAL_GROUP)
+            if course == None and x == 0:
+                print("#################")
+                print("BULLETIN INVALIDE")
+                print("#################")
+                return False
+            if course != None:
+                current_course = course.replace("\n"," ")
+                data.append({
+                    "prof": "Bob",
+                    "cours": current_course,
+                    "total": None,
+                    "points": []
+
+                })
+                if teacher != None:
+                    data[-1]["prof"] = " ".join(teacher.split(" ")[::-1])
+                else:
+                    print("Missing teacher for ", course)
+                
+            if uaa_name != None:
+                data[-1]["points"].append({
+                    "uaa": uaa_name.replace("\n", " "),
+                    "weight": int(uaa_weight),
+                    "value": None if uaa_points == None or uaa_points == "" else float(uaa_points.replace(",",".")),
+                })
+                data[-1]["total"] = 0 if total_value == None or total_value == "" else float(total_value.replace(",","."))
+        self.data = data
+
+
 
 
 
