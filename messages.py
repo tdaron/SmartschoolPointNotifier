@@ -4,7 +4,7 @@ import string
 def sanitize(matiere):
     m = string.capwords(matiere.replace("Gr2","").replace("Gr1","").replace("6h","").replace("2h","").replace("LM1","").replace("(","").replace(")","").lower().lstrip())
     return m
-def getMessage(prof, points, matiere):
+def getMessage(prof, points, matiere,isRetry):
     if points == 10:
         s =  random.choice(sentences["full"])
     elif points > 8:
@@ -18,7 +18,7 @@ def getMessage(prof, points, matiere):
     else:
         s = random.choice(sentences["nul"])
 
-    return s.replace("$PR",prof).replace("$PO",str(points).replace(".0","")).replace("$M",sanitize(matiere))
+    return s.replace("$PR",prof).replace("$PO",str(points).replace(".0","")).replace("$M",sanitize(matiere)) + "( REPASSE )" if isRetry else ""
 
 
 sentences = {
