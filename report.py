@@ -150,6 +150,7 @@ class Report:
                 })
                 data[-1]["total"] = 0 if total_value == None or total_value == "" else float(total_value.replace(",","."))
         self.data = data
+        return True
 
 
 
